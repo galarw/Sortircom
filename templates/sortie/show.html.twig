@@ -1,0 +1,84 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="container">
+        <h1>Afficher une sortie</h1>
+
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Informations générales</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>Nom de la sortie: {{ sortie.nom }}</p>
+                        <p>Date et heure de la sortie: {{ sortie.dateHeuredebut|date('d/m/Y H:i') }}</p>
+                        <p>Durée: {{ sortie.duree }} minutes</p>
+                        <p>Nombre de places: {{ sortie.nmInscriptionMax }}</p>
+                        <p>Description et infos: {{ sortie.infoSortie }}</p>
+                    </div>
+                </div>
+
+                <br>
+
+                {% if app.user and not sortie.participants.contains(app.user) %}
+                    <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}" class="btn btn-success">S'inscrire</a>
+                {% endif %}
+            </div>
+
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Lieu</h2>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ sortie.lieu.nom }}</p>
+                        <p>{{ sortie.lieu.rue }}</p>
+                        <p>{{ sortie.lieu.ville.nom }}</p>
+                        <p>{{ sortie.lieu.ville.codePostal }}</p>
+                    </div>
+                </div>
+
+                <br>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h2>Participants</h2>
+                    </div>
+                    <div class="card-body">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th>Pseudo</th>
+                                <th>Nom</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for participant in sortie.participants %}
+                                <tr>
+                                    <td><a href="{{ path('participant_profile', {'id': participant.id}) }}">{{ participant.pseudo }}</a></td>
+                                    <td>{{ participant.firstname }} {{ participant.name }}</td>
+                                </tr>
+                            {% else %}
+                                <tr>
+                                    <td colspan="2">Aucun participant inscrit.</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% if app.user == sortie.organisateur or is_granted('ROLE_ADMIN') %}
+            {% if sortie.dateHeuredebut > "now"|date %}
+                <a href="{{ path('sortie_annuler', {'id': sortie.id}) }}" class="btn btn-warning">Annuler la sortie</a>
+            {% endif %}
+        {% endif %}
+
+        {% if app.user == sortie.organisateur %}
+            <a href="{{ path('sortie_edit', {id: sortie.id}) }}" class="btn btn-primary">Modifier la sortie</a>
+        {% endif %}
+    </div>
+{% endblock %}

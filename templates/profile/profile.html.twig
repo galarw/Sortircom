@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier votre profil{% endblock %}
+
+{% block main %}
+    <div class="container mt-4">
+        <h2 class="mb-4">Mon profil</h2>
+        {{ form_start(profileForm, {'attr': {'class': 'g-3'}}) }}
+
+        <div class="mb-3">
+            {{ form_label(profileForm.firstname, 'Prénom :') }}
+            {{ form_widget(profileForm.firstname, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(profileForm.name, 'Nom :') }}
+            {{ form_widget(profileForm.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(profileForm.pseudo, 'Pseudo :') }}
+            {{ form_widget(profileForm.pseudo, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(profileForm.email, 'Email :') }}
+            {{ form_widget(profileForm.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(profileForm.phonenumber, 'Téléphone :') }}
+            {{ form_widget(profileForm.phonenumber, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(profileForm.plainPassword, 'Mot de passe :') }}
+            {{ form_widget(profileForm.plainPassword, {'attr': {'class': 'form-control'}}) }}
+        </div>
+
+        <div class="mb-3">
+            {{ form_label(profileForm.site, 'Site de rattachement :') }}
+            {{ form_widget(profileForm.site, {'attr': {'class': 'form-select'}}) }}
+        </div>
+
+{#  <div class="mb-3">
+            {{ form_label(profileForm.picture, 'Ma photo :') }}
+            {{ form_widget(profileForm.picture, {'attr': {'class': 'form-control'}}) }}
+        </div>#}
+
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary me-2">Enregistrer</button>
+            <a href="{{ path('app_home') }}" class="btn btn-secondary">Annuler</a>
+        </div>
+        {{ form_end(profileForm) }}
+    </div>
+{% endblock %}

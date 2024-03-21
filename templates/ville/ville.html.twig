@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <div class="row justify-content-center mt-5">
+            <div class="col-md-8">
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white text-center">
+                        <h1 class="m-0">Ajouter une nouvelle ville</h1>
+                    </div>
+                    <div class="card-body">
+                        {{ form_start(villeForm) }}
+                        <div class="mb-3">
+                            <label for="ville_nom" class="form-label">Nom de la ville</label>
+                            {{ form_widget(villeForm.nom, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <div class="mb-3">
+                            <label for="ville_codePostal" class="form-label">Code postal</label>
+                            {{ form_widget(villeForm.codePostal, {'attr': {'class': 'form-control'}}) }}
+                        </div>
+                        <h2>Lieux associés</h2>
+                        <div class="lieux-container">
+                            {% for lieuForm in villeForm.lieus %}
+                                <div class="mb-3 border p-3">
+
+                                    <div class="mb-3">
+                                        <label for="{{ lieuForm.nom.vars.id }}" class="form-label">Nom du lieu</label>
+                                        {{ form_widget(lieuForm.nom, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="{{ lieuForm.rue.vars.id }}" class="form-label">Rue</label>
+                                        {{ form_widget(lieuForm.rue, {'attr': {'class': 'form-control'}}) }}
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ lieuForm.latitude.vars.id }}" class="form-label">Latitude</label>
+                                            {{ form_widget(lieuForm.latitude, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                        <div class="col-md-6 mb-3">
+                                            <label for="{{ lieuForm.longitude.vars.id }}" class="form-label">Longitude</label>
+                                            {{ form_widget(lieuForm.longitude, {'attr': {'class': 'form-control'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            {% endfor %}
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary">Ajouter la ville</button>
+                        </div>
+                        {{ form_end(villeForm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

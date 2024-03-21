@@ -1,0 +1,106 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="container mt-4">
+        <h1 class="mt-5">Liste des sorties</h1>
+        <p>Date du jour : {{ "now"|date("d/m/Y") }}</p>
+
+        {% if app.user and not is_granted('ROLE_ADMIN') %}
+            <p>Participant : {{ app.user.firstname }} {{ app.user.name }}</p>
+        {% endif %}
+
+        {{ form_start(formFilter, {'attr': {'class': 'mb-4'}}) }}
+        <div class="row align-items-center">
+            <div class="col-md-3 mb-3">
+                {{ form_row(formFilter.site, {'attr': {'class': 'form-select'}}) }}
+            </div>
+            <div class="col-md-3 mb-3">
+                {{ form_row(formFilter.dateDebut, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-3 mb-3">
+                {{ form_row(formFilter.dateFin, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-3 mb-3">
+                {{ form_row(formFilter.motCle, {'attr': {'class': 'form-control'}}) }}
+            </div>
+            <div class="col-md-3 mb-3">
+                {{ form_row(formFilter.organisateur, {'attr': {'class': 'form-check-input'}}) }}
+            </div>
+            <div class="col-md-3 mb-3">
+                {{ form_row(formFilter.inscrit, {'attr': {'class': 'form-check-input'}}) }}
+            </div>
+            <div class="col-md-3 mb-3">
+                {{ form_row(formFilter.pasInscrit, {'attr': {'class': 'form-check-input'}}) }}
+            </div>
+            <div class="col-md-3 mb-3">
+                {{ form_row(formFilter.passees, {'attr': {'class': 'form-check-input'}}) }}
+            </div>
+            <div class="col-md-3 offset-md-9">
+                <button type="submit" class="btn btn-primary">Rechercher</button>
+            </div>
+        </div>
+        {{ form_end(formFilter) }}
+
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col">Nom de la sortie</th>
+                    <th scope="col">Date de début d'inscription</th>
+                    <th scope="col">Clôture</th>
+                    <th scope="col">Date de la sortie</th>
+                    <th scope="col">Site</th>
+                    <th scope="col">Nombre inscrits / places</th>
+                    <th scope="col">État</th>
+                    <th scope="col">Inscrit</th>
+                    <th scope="col">Organisateur</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for sortie in sorties %}
+                    <tr>
+                        <td>{{ sortie.nom }}</td>
+                        <td>{{ sortie.dateDebutInscription|date('d/m/Y H:i') }}</td>
+                        <td>{{ sortie.dateLimiteInscription|date('d/m/Y H:i') }}</td>
+                        <td>{{ sortie.dateHeuredebut|date('d/m/Y H:i') }}</td>
+                        <td>{{ sortie.site.nom }}</td>
+                        <td>{{ sortie.participants|length }} / {{ sortie.nmInscriptionMax }}</td>
+                        <td>
+                            {% if sortie.etat is not null %}
+                                {{ sortie.etat.libelle }}
+                            {% else %}
+                                État inconnu
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if app.user and sortie.participants.contains(app.user) %}
+                                <span class="text-success">&#10004;</span>
+                            {% else %}
+                                <span class="text-danger">&#10006;</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{{ path('participant_profile', {'id': sortie.organisateur.id}) }}">{{ sortie.organisateur.firstname }}</a>
+                        </td>
+                        <td>
+                            <div class="d-flex flex-column">
+                                <a href="{{ path('sortie_detail', {'id': sortie.id}) }}" class="btn btn-info btn-sm mb-1">Détails</a>
+                                {% if app.user and sortie.participants.contains(app.user) and sortie.dateLimiteInscription > "now"|date %}
+                                    <a href="{{ path('sortie_desinscription', {'id': sortie.id}) }}" class="btn btn-warning btn-sm">Se désinscrire</a>
+                                {% elseif sortie.dateHeuredebut > "now"|date %}
+                                    <a href="{{ path('sortie_inscription', {'id': sortie.id}) }}" class="btn btn-success btn-sm">S'inscrire</a>
+                                {% endif %}
+                            </div>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-center">
+            <a href="{{ path('app_sortie') }}" class="btn btn-primary">Créer une sortie</a>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Créer un nouvel utilisateur{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('assets/css/bootstrap.min.css') }}">
+{% endblock %}
+
+{% block main %}
+    <div class="container">
+        <h1>Créer un nouvel utilisateur</h1>
+
+        {{ form_start(form) }}
+        <div class="form-group">
+            <label for="name">Nom</label>
+            {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label for="firstname">Prénom</label>
+            {{ form_widget(form.firstname, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label for="pseudo">Pseudo</label>
+            {{ form_widget(form.pseudo, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            {{ form_widget(form.email, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label for="phonenumber">Téléphone</label>
+            {{ form_widget(form.phonenumber, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label for="password">Mot de passe</label>
+            {{ form_widget(form.password, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <div class="form-group">
+            <label for="site">Site web</label>
+            {{ form_widget(form.site, {'attr': {'class': 'form-control'}}) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Créer</button>
+        {{ form_end(form) }}
+    </div>
+{% endblock %}

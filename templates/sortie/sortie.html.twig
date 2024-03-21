@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block main %}
+    <div class="container my-4">
+        <h1 class="mb-4">Créer une sortie</h1>
+
+        {{ form_start(sortieForm, {'attr': {'class': 'needs-validation', 'novalidate': 'novalidate'}}) }}
+
+        {{ form_row(sortieForm.nom, {'attr': {'class': 'form-control mb-3'}}) }}
+        {{ form_row(sortieForm.dateDebutInscription, {'attr': {'class': 'form-control mb-3 datetime-picker'}}) }}
+        {{ form_row(sortieForm.dateLimiteInscription, {'attr': {'class': 'form-control mb-3 datetime-picker'}}) }}
+        {{ form_row(sortieForm.dateHeuredebut, {'attr': {'class': 'form-control mb-3 datetime-picker'}}) }}
+        {{ form_row(sortieForm.nmInscriptionMax, {'attr': {'class': 'form-control mb-3'}}) }}
+        {{ form_row(sortieForm.duree, {'attr': {'class': 'form-control mb-3'}}) }}
+        {{ form_row(sortieForm.lieu, {'attr': {'class': 'form-control mb-3'}}) }}
+        {{ form_row(sortieForm.infoSortie, {'attr': {'class': 'form-control mb-3'}}) }}
+
+
+        <div class="d-flex justify-content-between">
+            <button type="submit" class="btn btn-success">Enregistrer</button>
+            <button type="submit" class="btn btn-primary">Publier la sortie</button>
+            <button type="button" class="btn btn-secondary" onclick="location.href='{{ path('app_home') }}'">Annuler</button>
+        </div>
+
+        {{ form_end(sortieForm) }}
+    </div>
+{% endblock %}

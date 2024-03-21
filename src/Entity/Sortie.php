@@ -23,7 +23,7 @@ class Sortie
     private ?\DateTimeInterface $dateHeuredebut = null;
 
     #[ORM\Column]
-    private ?int $durée = null;
+    private ?int $duree = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateLimiteInscription = null;
@@ -36,7 +36,8 @@ class Sortie
 
     #[ORM\ManyToMany(targetEntity: Participant::class, mappedBy: 'sorties')]
     private Collection $participants;
-
+    #[ORM\Column(type: 'datetime')]
+    private ?\DateTimeInterface $dateDebutInscription = null;
     #[ORM\ManyToOne(inversedBy: 'sortieOrga')]
     private ?Participant $organisateur = null;
 
@@ -83,18 +84,28 @@ class Sortie
         return $this;
     }
 
-    public function getDurée(): ?int
+    public function getDuree(): ?int
     {
-        return $this->durée;
+        return $this->duree;
     }
 
-    public function setDurée(int $durée): static
+    public function setDuree(int $duree): static
     {
-        $this->durée = $durée;
+        $this->duree = $duree;
 
         return $this;
     }
+    public function getDateDebutInscription(): ?\DateTimeInterface
+    {
+        return $this->dateDebutInscription;
+    }
 
+    public function setDateDebutInscription(\DateTimeInterface $dateDebutInscription): self
+    {
+        $this->dateDebutInscription = $dateDebutInscription;
+
+        return $this;
+    }
     public function getDateLimiteInscription(): ?\DateTimeInterface
     {
         return $this->dateLimiteInscription;
